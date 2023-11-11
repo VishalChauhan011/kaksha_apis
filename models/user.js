@@ -17,11 +17,16 @@ const userSchema = new mongoose.Schema({
         unique: true,
         validate: [validator.isEmail, 'Please enter valid email address']
     },
-    admissionNo: {
+    userId: {
         type: Number,
-        required: [true, 'Please enter your admission number'],
+        required: [true, 'Please enter your user id'],
         unique: true,
-        maxLength: [10, 'Your admission number cannot exceed 10 characters']
+    },
+    password: {
+        type: String,
+        required: [true, 'Please enter your password'],
+        minLength: [6, 'Your password must be longer than 6 characters'],
+        select: false
     },
     role: {
         type: String,
