@@ -23,17 +23,17 @@ const userSchema = new mongoose.Schema({
         unique: true,
         maxLength: [10, 'Your admission number cannot exceed 10 characters']
     },
-    type: {
+    role: {
         type: String,
-        required: [true, 'Please enter your type'],
-        enum: {
-            values: [
-                'student',
-                'teacher',
-                'admin'
-            ],
-            message: 'Please select correct type'
-        },
+        // required: [true, 'Please enter your type'],
+        // enum: {
+        //     values: [
+        //         'student',
+        //         'teacher',
+        //         'admin'
+        //     ],
+        //     message: 'Please select correct type'
+        // },
         default: 'student'
     },
     forgotPasswordToken: String,
