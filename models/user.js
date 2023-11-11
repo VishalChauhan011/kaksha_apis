@@ -55,5 +55,17 @@ userSchema.pre('save', async function (next) {
     this.password = await bcrypt.hash(this.password, 10);
 })
 
+//validate the password with passed on user password
+userSchema.methods.validatePassword = async function (password) {
+    return await bcrypt.compare(password, this.password);
+}
+
+//create and return jwt token
+userSchema.methods.getJwtToken = function () {
+    return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
+        expiresIn: process.env.JWT_EXPIRY
+    });
+}
+
 
 module.exports = mongoose.model('User', userSchema);
