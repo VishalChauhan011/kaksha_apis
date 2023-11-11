@@ -49,3 +49,34 @@ exports.createStudent = BigPromise(async (req, res, next) => {
 
     cookieToken(student, res)
 })
+
+exports.loginStudent = BigPromise(async (req, res, next) => {
+    const {
+        userId,
+        password
+    } = req.body;
+
+    if (!userId || !password) {
+        return next(new CustomError("Please provide userId and password", 400))
+    }
+
+    let student = await User.findOne({
+        userId
+    }).select("+password");
+
+    if (!student) {
+        return next(new CustomError("Student doesn't exist", 401))
+    }
+
+    const isMatch = await student.validatePassword(password);
+
+    if (!isMatch) {
+        return next(new CustomError("Invalid credentials", 401))
+    }
+
+    student = await Student.findOne({
+        user: student._id
+    }).populate('user');
+
+    cookieToken(student, res)
+})
